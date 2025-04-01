@@ -44,9 +44,9 @@ const Home = () => {
       {/* Features Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 w-full max-w-4xl mt-3">
         {[
-          { icon: <File size={32} className="text-yellow-400" />, title: "Any File Type", desc: "Upload and manage images, PDFs, videos, and more." },
-          { icon: <Search size={32} className="text-green-400" />, title: "Quick Search", desc: "Find your files instantly with smart search." },
-          { icon: <UploadCloud size={32} className="text-blue-400" />, title: "Bulk Upload", desc: "Upload multiple files at once without any hassle." }
+          { icon: <File size={30} className="text-yellow-400" />, title: "Any File Type", desc: "Upload and manage images, PDFs, videos, and more." },
+          { icon: <Search size={30} className="text-green-400" />, title: "Quick Search", desc: "Find your files instantly with smart search." },
+          { icon: <UploadCloud size={30} className="text-blue-400" />, title: "Bulk Upload", desc: "Upload multiple files at once without any hassle." }
         ].map((feature, index) => (
           <motion.div
             key={feature.title}
