@@ -32,7 +32,7 @@ const FileList = () => {
   };
  const handleDownload = async (filename) => {
     try {
-      const { data } = await axios.get(`http://localhost:5000/files/${filename}`, { responseType: "blob" });
+      const { data } = await axios.get(`https://panda-files.onrender.com/files/${filename}`, { responseType: "blob" });
       const url = window.URL.createObjectURL(new Blob([data]));
       const link = document.createElement("a");
       link.href = url;
