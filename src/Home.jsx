@@ -4,14 +4,14 @@ import { UploadCloud, File, Search } from "lucide-react";
 
 const Home = () => {
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900 p-3 text-white pt-20">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900  text-white ">
       
       {/* Header */}
       <motion.h1 
         initial={{ opacity: 0, y: -20 }} 
         animate={{ opacity: 1, y: 0 }} 
         transition={{ duration: 0.5 }} 
-        className="text-4xl font-bold text-center mb-3"
+        className="text-4xl font-bold text-center mb-5"
       >
         🐼 Panda Files
       </motion.h1>
@@ -20,14 +20,14 @@ const Home = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-lg text-center max-w-2xl mb-3"
+        className="text-lg text-center max-w-2xl mb-5"
       >
         Upload, manage, and access your files seamlessly. <br /> 
         <strong>Drag and drop multiple files</strong> or <strong>browse and upload</strong> with ease.
       </motion.p>
 
       {/* Image Section */}
-      <div className="flex flex-wrap gap-5 justify-center items-center">
+      <div className="flex flex-wrap gap-6 justify-center items-center">
         {["panda.webp", "panda1.webp"].map((src, index) => (
           <motion.img 
             key={index}
@@ -42,21 +42,21 @@ const Home = () => {
       </div>
 
       {/* Features Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 w-full max-w-4xl mt-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-4xl mt-5">
         {[
-          { icon: <File size={30} className="text-yellow-400" />, title: "Any File Type", desc: "Upload and manage images, PDFs, videos, and more." },
-          { icon: <Search size={30} className="text-green-400" />, title: "Quick Search", desc: "Find your files instantly with smart search." },
-          { icon: <UploadCloud size={30} className="text-blue-400" />, title: "Bulk Upload", desc: "Upload multiple files at once without any hassle." }
+          { icon: <File size={40} className="text-yellow-400" />, title: "Any File Type", desc: "Upload and manage images, PDFs, videos, and more." },
+          { icon: <Search size={40} className="text-green-400" />, title: "Quick Search", desc: "Find your files instantly with smart search." },
+          { icon: <UploadCloud size={40} className="text-blue-400" />, title: "Bulk Upload", desc: "Upload multiple files at once without any hassle." }
         ].map((feature, index) => (
           <motion.div
             key={feature.title}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 + index * 0.2 }}
-            className="bg-white/20 dark:bg-gray-700 p-3 rounded-xl shadow-lg flex flex-col items-center text-center"
+            className="bg-white/20 dark:bg-gray-700 p-5 rounded-xl shadow-lg flex flex-col items-center text-center"
           >
             {feature.icon}
-            <h3 className="text-lg font-semibold mt-2">{feature.title}</h3>
+            <h3 className="text-lg font-semibold mt-4">{feature.title}</h3>
             <p className="text-sm sm:text-base">{feature.desc}</p>
           </motion.div>
         ))}
