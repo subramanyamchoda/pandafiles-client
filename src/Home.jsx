@@ -11,7 +11,7 @@ const Home = () => {
         initial={{ opacity: 0, y: -20 }} 
         animate={{ opacity: 1, y: 0 }} 
         transition={{ duration: 0.5 }} 
-        className="text-4xl font-bold text-center mb-2"
+        className="text-4xl font-bold text-center mb-3"
       >
         🐼 Panda Files
       </motion.h1>
@@ -20,7 +20,7 @@ const Home = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-lg text-center max-w-2xl mb-2"
+        className="text-lg text-center max-w-2xl mb-3"
       >
         Upload, manage, and access your files seamlessly. <br /> 
         <strong>Drag and drop multiple files</strong> or <strong>browse and upload</strong> with ease.
@@ -42,7 +42,7 @@ const Home = () => {
       </div>
 
       {/* Features Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 w-full max-w-4xl mt-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 w-full max-w-4xl mt-3">
         {[
           { icon: <File size={30} className="text-yellow-400" />, title: "Any File Type", desc: "Upload and manage images, PDFs, videos, and more." },
           { icon: <Search size={30} className="text-green-400" />, title: "Quick Search", desc: "Find your files instantly with smart search." },
@@ -56,7 +56,7 @@ const Home = () => {
             className="bg-white/20 dark:bg-gray-700 p-3 rounded-xl shadow-lg flex flex-col items-center text-center"
           >
             {feature.icon}
-            <h3 className="text-lg font-semibold mt-3">{feature.title}</h3>
+            <h3 className="text-lg font-semibold mt-2">{feature.title}</h3>
             <p className="text-sm sm:text-base">{feature.desc}</p>
           </motion.div>
         ))}
