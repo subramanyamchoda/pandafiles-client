@@ -12,22 +12,17 @@ const Navbar = ({ user, setUser }) => {
   // Handle Dark Mode Toggle
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
-    localStorage.setItem("theme", darkMode ? "drk" : "light");
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
   // Handle Logout
-  const handleLogout = async () => {
+   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/auth/logout", {}, { withCredentials: true });
-
-      // Remove authentication token
-      document.cookie = "authToken=; Max-Age=0; path=/; domain=localhost; Secure; SameSite=None";
-
-      // Remove user data and reload page
+      await axios.post("https://panda-files.onrender.com/auth/logout", {}, { withCredentials: true });
       localStorage.removeItem("user");
       localStorage.removeItem("userId");
-      window.location.reload();
-      setUser(null);
+      navigate("/login");
+      setUser(null);      
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -63,17 +58,15 @@ const Navbar = ({ user, setUser }) => {
           {/* Desktop Navbar */}
           <div className="hidden md:flex space-x-8">
             {["Home", "Upload", "Files", "Contact"].map((item) => (
-              <motion.a
+              <Link
                 key={item}
-                href={`/${item.toLowerCase()}`}
+                to={`/${item.toLowerCase()}`}
                 className="text-xl text-white relative hover:text-gray-300 transition-all"
-                whileHover={{ scale: 1.05 }}
               >
                 {item}
-              </motion.a>
+              </Link>
             ))}
-
-            {/* User Profile Dropdown */}
+            
             {user ? (
               <div className="relative user-menu">
                 <img
@@ -82,7 +75,6 @@ const Navbar = ({ user, setUser }) => {
                   className="w-10 h-10 rounded-full border border-white cursor-pointer"
                   onClick={() => setShowDropdown(!showDropdown)}
                 />
-
                 <AnimatePresence>
                   {showDropdown && (
                     <motion.div
@@ -93,19 +85,10 @@ const Navbar = ({ user, setUser }) => {
                       className="absolute right-0 mt-2 w-48 bg-gray-800 text-white rounded-lg shadow-lg p-4"
                     >
                       <p className="text-center font-semibold">{user.name}</p>
-
-                      {/* Dashboard Link */}
-                      <Link
-                        to="/dashboard"
-                        className="mt-2 w-full text-center bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg transition-all block"
-                      >
+                      <Link to="/dashboard" className="mt-2 block text-center bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg">
                         Dashboard
                       </Link>
-
-                      <button
-                        onClick={handleLogout}
-                        className="mt-2 w-full text-center bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition-all"
-                      >
+                      <button onClick={handleLogout} className="mt-2 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg">
                         Logout
                       </button>
                     </motion.div>
@@ -130,7 +113,6 @@ const Navbar = ({ user, setUser }) => {
             >
               {darkMode ? <Sun size={20} /> : <Moon size={20} />}
             </motion.button>
-
             <button className="md:hidden text-white" onClick={handleToggle} aria-label="Toggle Menu">
               {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
@@ -163,36 +145,21 @@ const Navbar = ({ user, setUser }) => {
               <div className="flex flex-col items-center py-4">
                 <img src={user.avatar} alt="User" className="w-10 h-10 rounded-full border border-white" />
                 <p className="mt-2 font-semibold text-white">{user.name}</p>
-
-                {/* Dashboard Link */}
-                <Link
-                  to="/dashboard"
-                  className="mt-2 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all"
-                  onClick={closeMenu}
-                >
+                <Link to="/dashboard" className="mt-2 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all" onClick={closeMenu}>
                   Dashboard
                 </Link>
-
-                <button
-                  onClick={handleLogout}
-                  className="mt-2 px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all"
-                >
+                <button onClick={handleLogout} className="mt-2 px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all">
                   Logout
                 </button>
               </div>
             ) : (
-              <Link
-                to="/login"
-                className="block py-3 text-lg text-white text-center hover:text-gray-300 transition-all"
-                onClick={closeMenu}
-              >
+              <Link to="/login" className="block py-3 text-lg text-white text-center hover:text-gray-300 transition-all" onClick={closeMenu}>
                 Login
               </Link>
             )}
           </motion.div>
         )}
       </AnimatePresence>
-
       <hr className="border-white border-1" />
     </nav>
   );
