@@ -28,7 +28,7 @@ const Navbar = ({ user, setUser }) => {
 
    return ( 
       <nav className="bg-gray backdrop-blur-lg shadow-lg w-full z-50"> 
-         <div className="max-w-6xl mx-auto px-4"> 
+         <div className="max-w-6xl mx-auto px-4 bg-gray"> 
             <div className="flex justify-between items-center py-4"> 
                <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="text-2xl font-bold text-white flex items-center">
                   🐼 Panda Files 
