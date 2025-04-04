@@ -133,9 +133,9 @@ const UserFiles = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen p-6 bg-gray-100 dark:bg-gray-900 w-full pt-25">
+    <div className="flex flex-col items-center justify-start min-h-screen p-6 bg-gray-100  bg-gray-900 w-full pt-25">
 
-     <h1 className="w-full text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4 text-center">
+     <h1 className="w-full text-2xl font-bold text-gray-800  text-gray-200 mb-4 text-center">
   Your Uploaded Files
 </h1>
 
@@ -144,16 +144,16 @@ const UserFiles = () => {
         placeholder="Search files..."
         value={searchQuery}
         onChange={handleSearch}
-        className="w-full max-w-md p-2 border rounded-md shadow-md dark:bg-gray-800 dark:text-white mb-4"
+        className="w-full max-w-md p-2 border rounded-md shadow-md  bg-gray-800  text-white mb-4"
       />
       {loading ? (
-        <p className="text-gray-700 dark:text-gray-300">Loading files...</p>
+        <p className="text-gray-700  text-gray-300">Loading files...</p>
       ) : filteredFiles.length > 0 ? (
-        <ul className="w-full max-w-2xl bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 grid gap-4 sm:grid-cols-2 place-items-center">
+        <ul className="w-full max-w-2xl bg-white  bg-gray-800 shadow-lg rounded-lg p-4 grid gap-4 sm:grid-cols-2 place-items-center">
           {filteredFiles.map((file) => (
             <li
               key={file._id}
-              className="flex flex-col items-center p-3 border rounded-lg dark:border-white"
+              className="flex flex-col items-center p-3 border rounded-lg  border-white"
             >
               {file.preview ? (
                 <img
@@ -164,7 +164,7 @@ const UserFiles = () => {
               ) : (
                 <span className="text-3xl">{getFileIcon(file.filename)}</span>
               )}
-              <span className="text-gray-700 dark:text-gray-300 text-sm mt-2 text-center">
+              <span className="text-gray-700  text-gray-300 text-sm mt-2 text-center">
                 {file.filename}
               </span>
               <div className="flex gap-2 mt-3">
@@ -172,13 +172,13 @@ const UserFiles = () => {
                   onClick={() =>
                     handleDownload(file._id, file.filename, file.contentType)
                   }
-                  className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400"
+                  className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700  bg-blue-500  hover:bg-blue-400"
                 >
                   Download
                 </button>
                 <button
                   onClick={() => handleDelete(file._id)}
-                  className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-400"
+                  className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700  bg-red-500  hover:bg-red-400"
                 >
                   Delete
                 </button>
@@ -187,7 +187,7 @@ const UserFiles = () => {
           ))}
         </ul>
       ) : (
-        <p className="text-gray-700 dark:text-gray-300 text-center">
+        <p className="text-gray-700  text-gray-300 text-center">
           {message || "No files found."}
         </p>
       )}
