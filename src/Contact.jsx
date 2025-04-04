@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const Contact = () => {
   return (
-    <div className="min-h-screen flex text-white  flex-col items-center justify-center  dark:bg-gray-900   ">
+    <div className="min-h-screen flex text-white  flex-col items-center justify-center bg-gray-900   ">
       {/* Animated Header */}
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
