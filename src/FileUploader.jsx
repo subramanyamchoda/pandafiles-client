@@ -8,24 +8,8 @@ const FileUploader = () => {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState({});
   const [message, setMessage] = useState("");
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("theme") === "dark"
-  );
+ 
 
-  // Apply dark mode on component mount
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    const newMode = !darkMode;
-    setDarkMode(newMode);
-    localStorage.setItem("theme", newMode ? "dark" : "light");
-  };
 
   const handleFileChange = (event) => {
     setFiles((prev) => [...prev, ...event.target.files]);
@@ -88,8 +72,8 @@ const FileUploader = () => {
   
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
-      <h1 className="text-2xl mb-5 text-center dark:text-white">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 bg-gray-900 p-4">
+      <h1 className="text-2xl mb-5 text-center text-white">
         Upload multiple files at once. All file types are supported.
       </h1>
 
@@ -97,26 +81,26 @@ const FileUploader = () => {
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8 w-full max-w-lg text-center"
+        className="bg-white bg-gray-800 shadow-xl rounded-2xl p-8 w-full max-w-lg text-center"
       >
         {/* Header Section */}
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
+          <h1 className="text-2xl font-bold text-gray-800 text-gray-200">
             Upload Your Files
           </h1>
-          <button onClick={toggleDarkMode} className="text-gray-700 dark:text-gray-300">
+          <button onClick={toggleDarkMode} className="text-gray-700 text-gray-300">
             {darkMode ? <Sun size={24} /> : <Moon size={24} />}
           </button>
         </div>
 
         {/* Upload Box */}
         <label
-          className="cursor-pointer flex flex-col items-center border-2 border-dashed border-gray-400 dark:border-gray-500 rounded-xl p-6 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300"
+          className="cursor-pointer flex flex-col items-center border-2 border-dashed border-gray-400 border-gray-500 rounded-xl p-6 hover:bg-gray-100 hover:bg-gray-700 transition duration-300"
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
         >
-          <UploadCloud size={48} className="text-gray-600 dark:text-gray-300 mb-2" />
-          <span className="text-gray-600 dark:text-gray-300">
+          <UploadCloud size={48} className="text-gray-600 text-gray-300 mb-2" />
+          <span className="text-gray-600 text-gray-300">
             Drag & Drop or Click to Upload
           </span>
           <input type="file" multiple className="hidden" onChange={handleFileChange} />
@@ -125,7 +109,7 @@ const FileUploader = () => {
         {/* Upload Button */}
         <button
           onClick={uploadFiles}
-          className="mt-4 bg-blue-600 dark:bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-700 dark:hover:bg-blue-400 transition disabled:opacity-50"
+          className="mt-4 bg-blue-600 bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-700 hover:bg-blue-400 transition disabled:opacity-50"
           disabled={uploading}
         >
           {uploading ? "Uploading..." : "Upload Files"}
@@ -133,17 +117,17 @@ const FileUploader = () => {
 
         {/* Message Feedback */}
         {message && (
-          <p className="mt-3 text-sm text-gray-700 dark:text-gray-300">{message}</p>
+          <p className="mt-3 text-sm text-gray-700 text-gray-300">{message}</p>
         )}
       </motion.div>
 
       {/* File List */}
       {files.length > 0 && (
         <div className="mt-6 w-full max-w-lg text-center">
-          <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 underline">
+          <h3 className="text-lg font-medium text-gray-700 text-gray-300 underline">
             Selected Files:
           </h3>
-          <ul className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+          <ul className="mt-2 text-sm text-gray-700 text-gray-300">
             {files.map((file) => (
               <li key={file.name} className="mt-1">
                 {file.name} ({(file.size / 1024).toFixed(2)} KB) - {progress[file.name] || 0}%
