@@ -4,7 +4,7 @@ import { UploadCloud, File, Search } from "lucide-react";
 
 const Home = () => {
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900  text-white ">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 bg-gray-900  text-white ">
       
       {/* Header */}
       <motion.h1 
@@ -53,7 +53,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 + index * 0.2 }}
-            className="bg-white/20 dark:bg-gray-700 p-3 rounded-xl shadow-lg flex flex-col items-center text-center"
+            className="bg-white/20 bg-gray-700 p-3 rounded-xl shadow-lg flex flex-col items-center text-center"
           >
             {feature.icon}
             <h3 className="text-lg font-semibold mt-2">{feature.title}</h3>
