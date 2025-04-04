@@ -9,16 +9,12 @@ const FileList = () => {
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("newest");
   const [fileType, setFileType] = useState("all");
-  const [darkMode, setDarkMode] = useState(localStorage.getItem("theme") === "dark");
+  
 
   useEffect(() => {
     fetchFiles();
   }, []);
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode);
-    localStorage.setItem("theme", darkMode ? "dark" : "light");
-  }, [darkMode]);
 
   const fetchFiles = async () => {
     try {
@@ -45,7 +41,7 @@ const FileList = () => {
     }
   };
   const getFileIcon = (filename) => {
-    const iconProps = { size: 20, className: "text-gray-900 dark:text-white" };
+    const iconProps = { size: 20, className: "text-gray-900 text-white" };
     if (/\.(jpg|jpeg|png|gif|svg)$/i.test(filename)) return <Image {...iconProps} />;
     if (/\.pdf$/i.test(filename)) return <FileText {...iconProps} />;
     if (/\.(xlsx|xls|csv)$/i.test(filename)) return <FileSpreadsheet {...iconProps} />;
@@ -74,8 +70,8 @@ const FileList = () => {
   }, [files, search, sortOrder, fileType]);
 
   return (
-   <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100 dark:bg-gray-900">
-  <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">Your Uploaded Files</h1>
+   <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100 bg-gray-900">
+  <h1 className="text-2xl font-bold text-gray-800 text-gray-200 mb-4">Your Uploaded Files</h1>
 
 
       <input
@@ -83,13 +79,13 @@ const FileList = () => {
         placeholder="Search files..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="w-full max-w-lg p-2 border rounded-md shadow-md dark:bg-gray-800 dark:text-white mb-4"
+        className="w-full max-w-lg p-2 border rounded-md shadow-md :bg-gray-800 text-white mb-4"
       />
 
       <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
         <motion.select
           whileHover={{ scale: 1.05 }}
-          className="w-full sm:w-1/2 px-4 py-2 border rounded-lg bg-gray-200 dark:bg-gray-700 cursor-pointer text-gray-900 dark:text-white"
+          className="w-full sm:w-1/2 px-4 py-2 border rounded-lg bg-gray-200  bg-gray-700 cursor-pointer text-gray-900  text-white"
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
         >
@@ -101,7 +97,7 @@ const FileList = () => {
 
         <motion.select
           whileHover={{ scale: 1.05 }}
-          className="w-full sm:w-1/2 px-4 py-2 border rounded-lg bg-gray-200 dark:bg-gray-700 cursor-pointer text-gray-900 dark:text-white"
+          className="w-full sm:w-1/2 px-4 py-2 border rounded-lg bg-gray-200  bg-gray-700 cursor-pointer text-gray-900  text-white"
           value={fileType}
           onChange={(e) => setFileType(e.target.value)}
         >
@@ -114,16 +110,16 @@ const FileList = () => {
       </div>
 
       {loading ? (
-        <p className="text-gray-700 dark:text-white text-center">Loading files...</p>
+        <p className="text-gray-700  text-white text-center">Loading files...</p>
       ) : filteredFiles.length === 0 ? (
-        <p className="text-gray-700 dark:text-white text-center">No files found.</p>
+        <p className="text-gray-700  text-white text-center">No files found.</p>
       ) : (
-        <ul className="w-full max-w-lg bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4">
+        <ul className="w-full max-w-lg bg-white  bg-gray-800 shadow-lg rounded-lg p-4">
           {filteredFiles.map((file) => (
-            <li key={file._id} className="flex justify-between items-center p-2 border-b dark:border-gray-600">
+            <li key={file._id} className="flex justify-between items-center p-2 border-b  border-gray-600">
               <div className="flex items-center gap-3">
                 {getFileIcon(file.filename)}
-                <span className="text-gray-700 dark:text-gray-300">{file.filename}</span>
+                <span className="text-gray-700  text-gray-300">{file.filename}</span>
               </div>
               <button className="hover:text-blue-500" onClick={() => handleDownload(file.filename)}>
                   <Download size={20} />
