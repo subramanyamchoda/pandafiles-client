@@ -72,7 +72,7 @@ const FileUploader = () => {
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="bg-gray-900 shadow-xl rounded-2xl p-8 w-full max-w-lg text-center"
+        className="bg-gray-700 shadow-xl rounded-2xl p-8 w-full max-w-lg text-center"
       >
         {/* Header Section */}
         <div className="flex justify-between items-center mb-4">
