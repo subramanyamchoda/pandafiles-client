@@ -72,11 +72,11 @@ const FileUploader = () => {
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg text-center"
+        className="bg-gray-900 shadow-xl rounded-2xl p-8 w-full max-w-lg text-center"
       >
         {/* Header Section */}
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold text-gray-800">Upload Your Files</h1>
+          <h1 className="text-2xl font-bold text-white">Upload Your Files</h1>
         </div>
 
         {/* Upload Box */}
@@ -85,8 +85,8 @@ const FileUploader = () => {
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
         >
-          <UploadCloud size={48} className="text-gray-600 mb-2" />
-          <span className="text-gray-600">Drag & Drop or Click to Upload</span>
+          <UploadCloud size={48} className="text-white mb-2" />
+          <span className="text-white">Drag & Drop or Click to Upload</span>
           <input type="file" multiple className="hidden" onChange={handleFileChange} />
         </label>
 
@@ -100,14 +100,14 @@ const FileUploader = () => {
         </button>
 
         {/* Message Feedback */}
-        {message && <p className="mt-3 text-sm text-gray-700">{message}</p>}
+        {message && <p className="mt-3 text-sm text-white">{message}</p>}
       </motion.div>
 
       {/* File List */}
       {files.length > 0 && (
         <div className="mt-6 w-full max-w-lg text-center">
-          <h3 className="text-lg font-medium text-gray-700 underline">Selected Files:</h3>
-          <ul className="mt-2 text-sm text-gray-700">
+          <h3 className="text-lg font-medium text-white underline">Selected Files:</h3>
+          <ul className="mt-2 text-sm text-white">
             {files.map((file) => (
               <li key={file.name} className="mt-1">
                 {file.name} ({(file.size / 1024).toFixed(2)} KB) - {progress[file.name] || 0}%
