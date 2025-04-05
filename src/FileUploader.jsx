@@ -72,7 +72,7 @@ const FileUploader = () => {
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="bg-gray-700 shadow-xl rounded-2xl p-8 w-full max-w-lg text-center"
+        className="bg-gray-800 shadow-xl rounded-2xl p-8 w-full max-w-lg text-center"
       >
         {/* Header Section */}
         <div className="flex justify-between items-center mb-4">
@@ -81,7 +81,7 @@ const FileUploader = () => {
 
         {/* Upload Box */}
         <label
-          className="cursor-pointer flex flex-col items-center border-2 border-dashed border-gray-400 rounded-xl p-6 hover:bg-gray-100 transition duration-300"
+          className="cursor-pointer flex flex-col items-center border-2 border-dashed border-gray-400 rounded-xl p-6 transition duration-300"
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
         >
