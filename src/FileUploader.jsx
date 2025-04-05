@@ -63,8 +63,8 @@ const FileUploader = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 p-4">
-      <h1 className="text-2xl mb-5 text-center text-gray-800">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-900 p-4">
+      <h1 className="text-2xl mb-5 text-center text-white">
         Upload multiple files at once. All file types are supported.
       </h1>
 
