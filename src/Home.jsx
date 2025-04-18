@@ -7,13 +7,13 @@ const Home = () => {
     if (Notification.permission === "granted") {
       const notification = new Notification("📂 Welcome to Panda Files!", {
         body: "Upload, manage, and download your files with ease 🐼",
-        icon: "/panda-icon.png", // Make sure this path is correct
+        icon: "/tlogo.jpg", 
         vibrate: [200, 100, 300],
         requireInteraction: true,
       });
 
       notification.onclick = () => {
-        window.open("/dashboard", "_blank"); // Optional: open dashboard or other route
+        window.open("/pandafiles.vercel.app", "_blank"); // Optional: open dashboard or other route
       };
     }
   };
