@@ -3,6 +3,23 @@ import { motion } from "framer-motion";
 import { UploadCloud, File, Search } from "lucide-react";
 
 const Home = () => {
+
+     const showNotification = () => {
+      if (Notification.permission === "granted") {
+        new Notification("🎉 Welcome to Panad Files!", {
+          body: "Find your perfect stay 🏡 Click to explore now!",
+          icon: "/homes.jpg",
+          vibrate: [200, 100, 300],
+          requireInteraction: true,
+        });
+      }
+    };
+
+  
+    useEffect(()=>{
+      showNotification();
+    },[]);
+  
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 bg-gray-900  text-white ">
       
