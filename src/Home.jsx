@@ -13,7 +13,7 @@ const Home = () => {
       });
 
       notification.onclick = () => {
-        window.open("/pandafiles.vercel.app", "_blank"); // Optional: open dashboard or other route
+        window.open("/", "_blank"); // Optional: open dashboard or other route
       };
     }
   };
