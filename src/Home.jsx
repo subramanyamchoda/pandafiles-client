@@ -1,28 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { UploadCloud, File, Search } from "lucide-react";
 
 const Home = () => {
+  const showNotification = () => {
+    if (Notification.permission === "granted") {
+      const notification = new Notification("📂 Welcome to Panda Files!", {
+        body: "Upload, manage, and download your files with ease 🐼",
+        icon: "/tlogo.jpg", // Make sure this path is correct
+        vibrate: [200, 100, 300],
+        requireInteraction: true,
+      });
 
-     const showNotification = () => {
-      if (Notification.permission === "granted") {
-        new Notification("🎉 Welcome to Panad Files!", {
-          body: "Find your perfect stay 🏡 Click to explore now!",
-          icon: "/homes.jpg",
-          vibrate: [200, 100, 300],
-          requireInteraction: true,
-        });
-      }
-    };
-
-  
-    useEffect(()=>{
-      showNotification();
-    },[]);
-  
-  return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 bg-gray-900  text-white ">
+    useEffect(() => {
       
+      const notificationShown = localStorage.getItem('notificationShown');
+  
+    
+      if ("Notification" in window && notificationShown !== 'true') {
+        if (Notification.permission === "default") {
+         
+          Notification.requestPermission().then((perm) => {
+            if (perm === "granted") {
+              showNotification();
+             
+              localStorage.setItem('notificationShown', 'true');
+            }
+          });
+        } else if (Notification.permission === "granted") {
+          
+          showNotification();
+          localStorage.setItem('notificationShown', 'true');
+        }
+      }
+    }, []);
+
+  return (
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-900 text-white">
       {/* Header */}
       <motion.h1 
         initial={{ opacity: 0, y: -20 }} 
