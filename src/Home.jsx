@@ -1,29 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { UploadCloud, File, Search } from "lucide-react";
 
 const Home = () => {
+  const [permission, setPermission] = useState(Notification.permission);
+
   const showNotification = () => {
     if (Notification.permission === "granted") {
       const notification = new Notification("📂 Welcome to Panda Files!", {
         body: "Upload, manage, and download your files with ease 🐼",
-        icon: "/tlogo.jpg", 
+        icon: "/tlogo.jpg",
         vibrate: [200, 100, 300],
         requireInteraction: true,
       });
 
       notification.onclick = () => {
-        window.open("/pandafiles.vercel.app", "_blank"); // Optional: open dashboard or other route
+        window.open("https://pandafiles.vercel.app", "_blank");
       };
     }
   };
 
+  const requestPermission = () => {
+    Notification.requestPermission().then((perm) => {
+      setPermission(perm);
+      if (perm === "granted") showNotification();
+    });
+  };
+
   useEffect(() => {
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") showNotification();
-      });
-    } else {
+    // For desktop auto-trigger only
+    if (window.innerWidth > 768 && Notification.permission === "granted") {
       showNotification();
     }
   }, []);
@@ -39,7 +45,7 @@ const Home = () => {
       >
         🐼 Panda Files
       </motion.h1>
-      
+
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -50,8 +56,18 @@ const Home = () => {
         <strong>Drag and drop multiple files</strong> or <strong>browse and upload</strong> with ease.
       </motion.p>
 
+      {/* Manual Notification Button */}
+      {permission !== "granted" && (
+        <button
+          onClick={requestPermission}
+          className="bg-blue-600 text-white px-4 py-2 mt-4 rounded hover:bg-blue-700 transition"
+        >
+          Enable Notifications
+        </button>
+      )}
+
       {/* Image Section */}
-      <div className="flex flex-wrap gap-5 justify-center items-center">
+      <div className="flex flex-wrap gap-5 justify-center items-center mt-4">
         {["panda.webp", "panda1.webp"].map((src, index) => (
           <motion.img 
             key={index}
@@ -66,7 +82,7 @@ const Home = () => {
       </div>
 
       {/* Features Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 w-full max-w-4xl mt-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 w-full max-w-4xl mt-6">
         {[
           { icon: <File size={30} className="text-yellow-400" />, title: "Any File Type", desc: "Upload and manage images, PDFs, videos, and more." },
           { icon: <Search size={30} className="text-green-400" />, title: "Quick Search", desc: "Find your files instantly with smart search." },
