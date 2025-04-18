@@ -7,33 +7,26 @@ const Home = () => {
     if (Notification.permission === "granted") {
       const notification = new Notification("📂 Welcome to Panda Files!", {
         body: "Upload, manage, and download your files with ease 🐼",
-        icon: "/tlogo.jpg", // Make sure this path is correct
+        icon: "/panda-icon.png", // Make sure this path is correct
         vibrate: [200, 100, 300],
         requireInteraction: true,
       });
 
-    useEffect(() => {
-      
-      const notificationShown = localStorage.getItem('notificationShown');
-  
-    
-      if ("Notification" in window && notificationShown !== 'true') {
-        if (Notification.permission === "default") {
-         
-          Notification.requestPermission().then((perm) => {
-            if (perm === "granted") {
-              showNotification();
-             
-              localStorage.setItem('notificationShown', 'true');
-            }
-          });
-        } else if (Notification.permission === "granted") {
-          
-          showNotification();
-          localStorage.setItem('notificationShown', 'true');
-        }
-      }
-    }, []);
+      notification.onclick = () => {
+        window.open("/dashboard", "_blank"); // Optional: open dashboard or other route
+      };
+    }
+  };
+
+  useEffect(() => {
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") showNotification();
+      });
+    } else {
+      showNotification();
+    }
+  }, []);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-900 text-white">
