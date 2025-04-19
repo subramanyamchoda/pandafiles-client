@@ -3,36 +3,39 @@ import { motion } from "framer-motion";
 import { UploadCloud, File, Search } from "lucide-react";
 
 const Home = () => {
-
+  const showNotification = () => {
+    if (Notification.permission === "granted") {
+      // Using service worker for both desktop and mobile notifications
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification("📂 Welcome to Panda Files!", {
+          body: "Upload, manage, and download your files with ease 🐼",
+          icon: "/tlogo.jpg", // Make sure this path is correct
+          vibrate: [200, 100, 300],
+          requireInteraction: true,
+        });
+      });
+    }
+  };
 
   useEffect(() => {
-  if ("Notification" in window) {
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          showNotification(); // Call the function to show a notification after permission is granted
-        }
-      });
-    } else {
-      showNotification(); // If already granted, show notification
+    // Check if service worker and push notifications are supported
+    if ("serviceWorker" in navigator && "PushManager" in window) {
+      navigator.serviceWorker
+        .register("/sw.js") // Path to your service worker file
+        .then((registration) => {
+          if (Notification.permission !== "granted") {
+            Notification.requestPermission().then((permission) => {
+              if (permission === "granted") showNotification();
+            });
+          } else {
+            showNotification();
+          }
+        })
+        .catch((error) => {
+          console.error("Service Worker registration failed", error);
+        });
     }
-  }
-}, []);
-
-const showNotification = () => {
-  if (Notification.permission === "granted") {
-    const notification = new Notification("📂 Welcome to Panda Files!", {
-      body: "Upload, manage, and download your files with ease 🐼",
-      icon: "/tlogo.jpg", // Ensure this path is correct
-      vibrate: [200, 100, 300], // Vibration pattern for notification
-      requireInteraction: true, // Keeps the notification displayed until the user interacts with it
-    });
-
-    notification.onclick = () => {
-      window.open("/", "_blank"); // Open your app or specific route
-    };
-  }
-};
+  }, []);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-900 text-white">
