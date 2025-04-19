@@ -3,10 +3,11 @@ import { motion } from "framer-motion";
 import { UploadCloud, File, Search } from "lucide-react";
 
 const Home = () => {
-      useEffect(() => {
+  useEffect(() => {
+    // Check for service worker and notification permission
     if ("serviceWorker" in navigator && "PushManager" in window) {
       navigator.serviceWorker
-        .register("/sw.js")
+        .register("/sw.js") // Register the service worker
         .then((registration) => {
           console.log("Service Worker registered");
 
@@ -25,14 +26,15 @@ const Home = () => {
   }, []);
 
   const sendWelcomeNotification = () => {
-    navigator.serviceWorker.ready.then((registration) => {
-      registration.showNotification("📂 Welcome to Panda Files!", {
+    // Use Notification API to send a notification when the user visits the site
+    if (Notification.permission === "granted") {
+      new Notification("📂 Welcome to Panda Files!", {
         body: "Upload, manage, and download your files easily 🐼",
         icon: "/tlogo.jpg",
         vibrate: [200, 100, 200],
         requireInteraction: false,
       });
-    });
+    }
   };
 
   return (
@@ -74,23 +76,19 @@ const Home = () => {
 
       {/* Features Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 w-full max-w-4xl mt-3">
-        {[
-          {
-            icon: <File size={30} className="text-yellow-400" />,
-            title: "Any File Type",
-            desc: "Upload and manage images, PDFs, videos, and more.",
-          },
-          {
-            icon: <Search size={30} className="text-green-400" />,
-            title: "Quick Search",
-            desc: "Find your files instantly with smart search.",
-          },
-          {
-            icon: <UploadCloud size={30} className="text-blue-400" />,
-            title: "Bulk Upload",
-            desc: "Upload multiple files at once without any hassle.",
-          },
-        ].map((feature, index) => (
+        {[{
+          icon: <File size={30} className="text-yellow-400" />,
+          title: "Any File Type",
+          desc: "Upload and manage images, PDFs, videos, and more.",
+        }, {
+          icon: <Search size={30} className="text-green-400" />,
+          title: "Quick Search",
+          desc: "Find your files instantly with smart search.",
+        }, {
+          icon: <UploadCloud size={30} className="text-blue-400" />,
+          title: "Bulk Upload",
+          desc: "Upload multiple files at once without any hassle.",
+        }].map((feature, index) => (
           <motion.div
             key={feature.title}
             initial={{ opacity: 0, y: 20 }}
