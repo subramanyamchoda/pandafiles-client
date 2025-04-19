@@ -3,39 +3,37 @@ import { motion } from "framer-motion";
 import { UploadCloud, File, Search } from "lucide-react";
 
 const Home = () => {
-  const showNotification = () => {
-    if (Notification.permission === "granted") {
-      // Using service worker for both desktop and mobile notifications
-      navigator.serviceWorker.ready.then((registration) => {
-        registration.showNotification("📂 Welcome to Panda Files!", {
-          body: "Upload, manage, and download your files with ease 🐼",
-          icon: "/tlogo.jpg", // Make sure this path is correct
-          vibrate: [200, 100, 300],
-          requireInteraction: true,
-        });
-      });
-    }
-  };
-
-  useEffect(() => {
-    // Check if service worker and push notifications are supported
+      useEffect(() => {
     if ("serviceWorker" in navigator && "PushManager" in window) {
       navigator.serviceWorker
-        .register("/sw.js") // Path to your service worker file
+        .register("/sw.js")
         .then((registration) => {
+          console.log("Service Worker registered");
+
           if (Notification.permission !== "granted") {
             Notification.requestPermission().then((permission) => {
-              if (permission === "granted") showNotification();
+              if (permission === "granted") {
+                sendWelcomeNotification();
+              }
             });
           } else {
-            showNotification();
+            sendWelcomeNotification();
           }
         })
-        .catch((error) => {
-          console.error("Service Worker registration failed", error);
-        });
+        .catch((err) => console.error("Service Worker registration failed", err));
     }
   }, []);
+
+  const sendWelcomeNotification = () => {
+    navigator.serviceWorker.ready.then((registration) => {
+      registration.showNotification("📂 Welcome to Panda Files!", {
+        body: "Upload, manage, and download your files easily 🐼",
+        icon: "/tlogo.jpg",
+        vibrate: [200, 100, 200],
+        requireInteraction: false,
+      });
+    });
+  };
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-900 text-white">
