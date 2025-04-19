@@ -1,24 +1,19 @@
 self.addEventListener("push", function (event) {
-  const data = event.data?.json() || {
-    title: "📢 New Notification",
-    body: "You have a new message!",
-    url: "/",
-  };
+  const data = event.data ? event.data.json() : {};
 
+  const title = data.title || "🐼 New Notification";
   const options = {
-    body: data.body,
+    body: data.body || "You have a new update.",
     icon: "/tlogo.jpg",
-    vibrate: [200, 100, 200],
-    data: { url: data.url },
+    vibrate: [200, 100, 300],
+    badge: "/tlogo.jpg",
+    data: { url: data.url || "/" },
   };
 
-  event.waitUntil(
-    self.registration.showNotification(data.title, options)
-  );
+  event.waitUntil(self.registration.showNotification(title, options));
 });
 
 self.addEventListener("notificationclick", function (event) {
   event.notification.close();
-  const targetUrl = event.notification.data?.url || "/";
-  event.waitUntil(clients.openWindow(targetUrl));
+  event.waitUntil(clients.openWindow(event.notification.data.url));
 });
