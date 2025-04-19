@@ -3,14 +3,15 @@ import { motion } from "framer-motion";
 import { UploadCloud, File, Search } from "lucide-react";
 
 const Home = () => {
-  useEffect(() => {
+   useEffect(() => {
     if ("serviceWorker" in navigator && "PushManager" in window) {
+      // Register the service worker
       navigator.serviceWorker
-        .register("/sw.js") // Register the service worker
+        .register("/sw.js") // Ensure your service worker file is at /sw.js
         .then((registration) => {
           console.log("Service Worker registered");
 
-          // Request permission for notifications
+          // Request notification permission
           if (Notification.permission !== "granted") {
             Notification.requestPermission().then((permission) => {
               if (permission === "granted") {
@@ -25,16 +26,20 @@ const Home = () => {
     }
   }, []);
 
+  // Function to send a notification
   const sendWelcomeNotification = () => {
     if (Notification.permission === "granted") {
-      new Notification("📂 Welcome to Panda Files!", {
-        body: "Upload, manage, and download your files easily 🐼",
-        icon: "/tlogo.jpg",
-        vibrate: [200, 100, 200],
-        requireInteraction: false,
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification("📂 Welcome to Panda Files!", {
+          body: "Upload, manage, and download your files easily 🐼",
+          icon: "/tlogo.jpg",
+          vibrate: [200, 100, 200],
+          requireInteraction: false,
+        });
       });
     }
   };
+
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-900 text-white">
