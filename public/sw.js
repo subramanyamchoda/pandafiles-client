@@ -1,20 +1,24 @@
 self.addEventListener("push", function (event) {
-  const data = event.data.json();
-  const title = data.title || "Notification";
-  const options = {
-    body: data.body || "You have a new notification!",
-    icon: "/tlogo.jpg", // Make sure this path is correct
-    vibrate: [200, 100, 300],
-    data: data.url,
+  const data = event.data?.json() || {
+    title: "📢 New Notification",
+    body: "You have a new message!",
+    url: "/",
   };
 
-  event.waitUntil(self.registration.showNotification(title, options));
+  const options = {
+    body: data.body,
+    icon: "/tlogo.jpg",
+    vibrate: [200, 100, 200],
+    data: { url: data.url },
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
 });
 
 self.addEventListener("notificationclick", function (event) {
   event.notification.close();
-  const url = event.notification.data;
-  if (url) {
-    clients.openWindow(url);
-  }
+  const targetUrl = event.notification.data?.url || "/";
+  event.waitUntil(clients.openWindow(targetUrl));
 });
