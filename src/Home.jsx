@@ -4,13 +4,13 @@ import { UploadCloud, File, Search } from "lucide-react";
 
 const Home = () => {
   useEffect(() => {
-    // Check for service worker and notification permission
     if ("serviceWorker" in navigator && "PushManager" in window) {
       navigator.serviceWorker
         .register("/sw.js") // Register the service worker
         .then((registration) => {
           console.log("Service Worker registered");
 
+          // Request permission for notifications
           if (Notification.permission !== "granted") {
             Notification.requestPermission().then((permission) => {
               if (permission === "granted") {
@@ -26,7 +26,6 @@ const Home = () => {
   }, []);
 
   const sendWelcomeNotification = () => {
-    // Use Notification API to send a notification when the user visits the site
     if (Notification.permission === "granted") {
       new Notification("📂 Welcome to Panda Files!", {
         body: "Upload, manage, and download your files easily 🐼",
