@@ -25,17 +25,6 @@ const Home = () => {
           console.error("Service Worker registration failed", err)
         );
     }
-
-    // Initialize Google AdSense ads safely
-    if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
-      try {
-        // Push once for each ad block
-        window.adsbygoogle.push({});
-        window.adsbygoogle.push({});
-      } catch (e) {
-        console.error("Adsense push error", e);
-      }
-    }
   }, []);
 
   const sendWelcomeNotification = () => {
@@ -137,25 +126,27 @@ const Home = () => {
         ))}
       </div>
 
-      {/* AdSense Ad Block */}
-      <div className="my-6 w-full flex flex-col gap-6 justify-center items-center">
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block", width: "100%", height: "320px" }}
-          data-ad-client="ca-pub-1417536970473743"
-          data-ad-slot="7484094536"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        ></ins>
-
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block", textAlign: "center" }}
-          data-ad-layout="in-article"
-          data-ad-format="fluid"
-          data-ad-client="ca-pub-1417536970473743"
-          data-ad-slot="9203552076"
-        ></ins>
+      {/* Replaced Ad Block with Informational Content */}
+      <div className="my-10 w-full max-w-4xl px-4 text-center text-white">
+        <motion.h2
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-2xl font-bold mb-2"
+        >
+          📌 Why Choose Panda Files?
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-base text-gray-300"
+        >
+          Panda Files is built for students, professionals, and teams who need a
+          **fast**, **reliable**, and **user-friendly** cloud storage experience. Whether
+          you're sharing project files or organizing your portfolio, Panda Files
+          ensures everything is available exactly when you need it — on any device.
+        </motion.p>
       </div>
     </div>
   );
