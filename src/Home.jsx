@@ -143,6 +143,16 @@ const Home = () => {
           data-ad-format="auto"
           data-full-width-responsive="true"
         ></ins>
+        
+        <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1417536970473743"
+     data-ad-slot="9203552076"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
       </div>
 
     </div>
