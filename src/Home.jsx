@@ -29,6 +29,7 @@ const Home = () => {
     // Initialize Google AdSense ads
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (e) {
       console.error("Adsense error", e);
     }
@@ -134,7 +135,7 @@ const Home = () => {
       </div>
 
       {/* AdSense Ad Block */}
-      <div className="my-6 w-full flex justify-center">
+      <div className="my-6 w-full flex flex-col gap-6 justify-center items-center">
         <ins
           className="adsbygoogle"
           style={{ display: "block", width: "100%", height: "320px" }}
@@ -143,18 +144,16 @@ const Home = () => {
           data-ad-format="auto"
           data-full-width-responsive="true"
         ></ins>
-        
-        <ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-1417536970473743"
-     data-ad-slot="9203552076"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-      </div>
 
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block", textAlign: "center" }}
+          data-ad-layout="in-article"
+          data-ad-format="fluid"
+          data-ad-client="ca-pub-1417536970473743"
+          data-ad-slot="9203552076"
+        ></ins>
+      </div>
     </div>
   );
 };
