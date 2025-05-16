@@ -26,12 +26,15 @@ const Home = () => {
         );
     }
 
-    // Initialize Google AdSense ads
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.error("Adsense error", e);
+    // Initialize Google AdSense ads safely
+    if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
+      try {
+        // Push once for each ad block
+        window.adsbygoogle.push({});
+        window.adsbygoogle.push({});
+      } catch (e) {
+        console.error("Adsense push error", e);
+      }
     }
   }, []);
 
