@@ -32,7 +32,6 @@ const Contact = () => {
       <div className="mt-8 w-full max-w-lg space-y-4">
         {[ 
           { Icon: Mail, text: "subramanyamchoda50@gmail.com" },
-          { Icon: Phone, text: "+91 8919348949" },
           { Icon: MapPin, text: "Ongole" }
         ].map(({ Icon, text }, index) => (
           <motion.div 
