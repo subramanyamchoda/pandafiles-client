@@ -4,6 +4,10 @@
 
 🌐 **Live Demo**: [https://pandafiles.vercel.app/](https://pandafiles.vercel.app/)
 
+<p align="center">
+  <img src="https://subramanyamchoda.vercel.app/pandafiles1.png" alt="PandaFile Screenshot" width="800"/>
+</p>
+
 ---
 
 ## 🚀 Features
