@@ -5,7 +5,12 @@
 🌐 **Live Demo**: [https://pandafiles.vercel.app/](https://pandafiles.vercel.app/)
 
 <p align="center">
-  <img src="https://subramanyamchoda.vercel.app/pandafiles1.png" alt="PandaFile Screenshot" width="800"/>
+  <img src="https://subramanyamchoda.vercel.app/pandafiles1.png" width="500"/>
+  <img src="https://subramanyamchoda.vercel.app/pandafiles2.png" width="500"/>
+  <img src="https://subramanyamchoda.vercel.app/pandafiles3.png" width="500"/>
+  <img src="https://subramanyamchoda.vercel.app/pandafiles4.png" width="500"/>
+  <img src="https://subramanyamchoda.vercel.app/pandafiles5.png" width="500"/>
+  <img src="https://subramanyamchoda.vercel.app/pandafiles6.png" width="500"/>
 </p>
 
 ---
