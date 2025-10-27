@@ -4,20 +4,35 @@
     <meta charset="UTF-8" />
     <link rel="icon" href="/tlogo.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panda Files</title>
 
-  
     <!-- Web App Manifest -->
     <link rel="manifest" href="/manifest.json" />
 
     <!-- Google Sign-In -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-    <title>Panda Files</title>
+    <!-- If aclib is used, you need to include its main script before using runAutoTag -->
+    <!-- Example (replace with your actual adlib script source): -->
+    <!-- <script src="https://aclib.com/library.js"></script> -->
   </head>
+
   <body>
     <!-- React Root -->
     <div id="root"></div>
+
     <!-- Main React App -->
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Run aclib auto-tag -->
+    <script type="text/javascript">
+      if (typeof aclib !== 'undefined') {
+        aclib.runAutoTag({
+          zoneId: 'edaaaq5d2u',
+        });
+      } else {
+        console.warn("aclib not loaded — please include its script before calling runAutoTag().");
+      }
+    </script>
   </body>
 </html>
