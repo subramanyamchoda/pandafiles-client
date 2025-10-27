@@ -11,29 +11,39 @@
 
     <!-- Google Sign-In -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
 
-    <!-- If aclib is used, you need to include its main script before using runAutoTag -->
-    <!-- Example (replace with your actual adlib script source): -->
-    <!-- <script src="https://aclib.com/library.js"></script> -->
+    <!-- Aclib main script -->
+    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js" async></script>
   </head>
 
   <body>
     <!-- React Root -->
     <div id="root"></div>
 
+    <!-- Ad Container -->
+    <div id="ad-container" style="margin-top: 20px; text-align: center;"></div>
+
     <!-- Main React App -->
     <script type="module" src="/src/main.jsx"></script>
 
-    <!-- Run aclib auto-tag -->
+    <!-- Run aclib auto-tag AFTER the div -->
     <script type="text/javascript">
-      if (typeof aclib !== 'undefined') {
-        aclib.runAutoTag({
-          zoneId: 'edaaaq5d2u',
-        });
-      } else {
-        console.warn("aclib not loaded — please include its script before calling runAutoTag().");
-      }
+      window.addEventListener("load", function () {
+        if (typeof aclib !== "undefined") {
+          // Create a container div for the ad
+          const adDiv = document.createElement("div");
+          adDiv.setAttribute("id", "aclib-zone");
+          document.getElementById("ad-container").appendChild(adDiv);
+
+          // Run the ad inside that div
+          aclib.runAutoTag({
+            zoneId: "edaaaq5d2u",
+            target: adDiv, // optional explicit target
+          });
+        } else {
+          console.warn("aclib not loaded — please check the script source.");
+        }
+      });
     </script>
   </body>
 </html>
