@@ -1,4 +1,4 @@
-import React, { useState, memo, useCallback } from "react";
+import React, { useState, memo, useCallback, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -6,6 +6,7 @@ const Navbar = ({ user, setUser }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
 
   const toggleMenu = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -17,6 +18,22 @@ const Navbar = ({ user, setUser }) => {
 
   const toggleDropdown = useCallback(() => {
     setShowDropdown((prev) => !prev);
+  }, []);
+
+  const closeDropdown = useCallback(() => {
+    setShowDropdown(false);
+  }, []);
+
+  // 🔥 Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleLogout = async () => {
@@ -31,6 +48,7 @@ const Navbar = ({ user, setUser }) => {
       localStorage.removeItem("userId");
       setUser(null);
 
+      closeDropdown();
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -40,7 +58,7 @@ const Navbar = ({ user, setUser }) => {
   const navItems = ["Home", "Upload", "Files", "Contact"];
 
   return (
-    <nav className="bg-gray-800/80 backdrop-blur-md border-b border-gray-700 sticky top-0 z-50 text-white">
+    <nav className="bg-gray-900/80 backdrop-blur-lg border-b border-gray-700 sticky top-0 z-50 text-white">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between items-center py-4">
 
@@ -58,6 +76,9 @@ const Navbar = ({ user, setUser }) => {
               <Link
                 key={item}
                 to={`/${item.toLowerCase()}`}
+                onClick={() => {
+                  closeDropdown(); // 🔥 FIX
+                }}
                 className="relative group text-lg"
               >
                 {item}
@@ -66,7 +87,7 @@ const Navbar = ({ user, setUser }) => {
             ))}
 
             {user ? (
-              <div className="relative">
+              <div className="relative" ref={dropdownRef}>
                 <img
                   src={user.avatar}
                   alt="User"
@@ -75,12 +96,18 @@ const Navbar = ({ user, setUser }) => {
                 />
 
                 {showDropdown && (
-                  <div className="absolute right-0 mt-3 w-52 bg-gray-900/90 backdrop-blur-lg rounded-xl shadow-xl p-4 border border-gray-700">
-                    <p className="text-center font-semibold">{user.name}</p>
+                  <div className="absolute right-0 mt-3 w-52 bg-gray-900/95 backdrop-blur-xl rounded-xl shadow-xl p-4 border border-gray-700 animate-fadeIn">
+
+                    <p className="text-center font-semibold mb-2">
+                      {user.name}
+                    </p>
 
                     <Link
                       to="/dashboard"
-                      className="mt-3 block text-center bg-green-500 hover:bg-green-600 py-2 rounded-lg transition"
+                      onClick={() => {
+                        closeDropdown(); // 🔥 FIX HERE
+                      }}
+                      className="block text-center bg-green-500 hover:bg-green-600 py-2 rounded-lg transition"
                     >
                       Dashboard
                     </Link>
@@ -105,7 +132,6 @@ const Navbar = ({ user, setUser }) => {
           <button
             className="md:hidden text-2xl"
             onClick={toggleMenu}
-            aria-label="Toggle Menu"
           >
             {isOpen ? "✖" : "☰"}
           </button>
@@ -115,12 +141,16 @@ const Navbar = ({ user, setUser }) => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-gray-900/95 backdrop-blur-xl text-white">
+
           {navItems.map((item) => (
             <Link
               key={item}
               to={`/${item.toLowerCase()}`}
-              className="block py-3 text-lg text-center hover:text-gray-300 transition"
-              onClick={closeMenu}
+              className="block py-3 text-lg text-center hover:text-gray-300"
+              onClick={() => {
+                closeMenu();       // 🔥 FIX
+                closeDropdown();   // extra safety
+              }}
             >
               {item}
             </Link>
@@ -137,15 +167,18 @@ const Navbar = ({ user, setUser }) => {
 
               <Link
                 to="/dashboard"
-                className="mt-3 px-6 py-2 bg-green-500 rounded-lg hover:bg-green-600 transition"
-                onClick={closeMenu}
+                onClick={() => {
+                  closeMenu();       // 🔥 FIX
+                  closeDropdown();
+                }}
+                className="mt-3 px-6 py-2 bg-green-500 rounded-lg hover:bg-green-600"
               >
                 Dashboard
               </Link>
 
               <button
                 onClick={handleLogout}
-                className="mt-2 px-6 py-2 bg-red-500 rounded-lg hover:bg-red-600 transition"
+                className="mt-2 px-6 py-2 bg-red-500 rounded-lg hover:bg-red-600"
               >
                 Logout
               </button>
@@ -153,8 +186,8 @@ const Navbar = ({ user, setUser }) => {
           ) : (
             <Link
               to="/login"
-              className="block py-3 text-lg text-center hover:text-gray-300 transition"
               onClick={closeMenu}
+              className="block py-3 text-lg text-center hover:text-gray-300"
             >
               Login
             </Link>

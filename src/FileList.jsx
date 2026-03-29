@@ -79,7 +79,7 @@ const FileList = () => {
   }, [files, search, sortOrder, fileType]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white px-4 pt-24">
+    <div className="min-h-screen bg-gray-900 text-white px-4 pt-24 ">
 
       {/* HEADER */}
       <div className="max-w-6xl mx-auto mb-8 text-center">
@@ -126,7 +126,7 @@ const FileList = () => {
       </div>
 
       {/* CONTENT */}
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto mt-2">
 
         {loading ? (
           <p className="text-center text-gray-400">Loading files...</p>
