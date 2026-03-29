@@ -14,7 +14,7 @@ const FileList = () => {
 
   const fetchFiles = async () => {
     try {
-      // const res = await axios.get("https://panda-files.onrender.com/files");
+      const res = await axios.get("https://panda-files.onrender.com/files");
       setFiles(res.data || []);
     } catch (err) {
       console.error(err);
@@ -25,7 +25,7 @@ const FileList = () => {
   const handleDownload = async (filename) => {
     try {
       const res = await axios.get(
-        // `https://panda-files.onrender.com/files/${filename}`,
+        `https://panda-files.onrender.com/files/${filename}`,
         { responseType: "blob" }
       );
 
