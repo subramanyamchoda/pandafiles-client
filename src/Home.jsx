@@ -1,153 +1,135 @@
 import React, { useEffect } from "react";
-import { motion } from "framer-motion";
-import { UploadCloud, File, Search } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   useEffect(() => {
-    // Register Service Worker for push notification
-    if ("serviceWorker" in navigator && "PushManager" in window) {
-      navigator.serviceWorker
-        .register("/sw.js")
-        .then((registration) => {
-          console.log("Service Worker registered");
-
-          if (Notification.permission !== "granted") {
-            Notification.requestPermission().then((permission) => {
-              if (permission === "granted") {
-                sendWelcomeNotification();
-              }
-            });
-          } else {
-            sendWelcomeNotification();
-          }
-        })
-        .catch((err) =>
-          console.error("Service Worker registration failed", err)
-        );
+    // Register Service Worker (optimized)
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
     }
   }, []);
 
-  const sendWelcomeNotification = () => {
-    if (Notification.permission === "granted") {
-      navigator.serviceWorker.ready.then((registration) => {
-        registration.showNotification("📂 Welcome to Panda Files!", {
-          body: "Upload, manage, and download your files easily 🐼",
-          icon: "/tlogo.jpg",
-          vibrate: [200, 100, 200],
-          requireInteraction: false,
-        });
-      });
-    }
-  };
+  const features = [
+    {
+      icon: "📁",
+      title: "All File Types",
+      desc: "Upload images, videos, PDFs, and more.",
+    },
+    {
+      icon: "⚡",
+      title: "Fast Access",
+      desc: "Instantly access your files anytime.",
+    },
+    {
+      icon: "🔒",
+      title: "Secure Storage",
+      desc: "Your files are safe and protected.",
+    },
+    {
+      icon: "🔍",
+      title: "Quick Search",
+      desc: "Find files in seconds.",
+    },
+    {
+      icon: "☁️",
+      title: "Cloud Sync",
+      desc: "Access from any device.",
+    },
+    {
+      icon: "⬇️",
+      title: "Easy Download",
+      desc: "Download anytime easily.",
+    },
+  ];
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-900 text-white px-4 py-8">
-      {/* Header */}
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-4xl font-bold text-center mb-3"
-      >
-        🐼 Panda Files
-      </motion.h1>
+    <div className="min-h-screen bg-gray-900 text-white px-4 pt-6">
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-lg text-center max-w-2xl mb-4"
-      >
-        Welcome to <strong>Panda Files</strong> – your secure and efficient file
-        storage solution. Easily upload, manage, and share files with a simple
-        drag-and-drop interface.
-      </motion.p>
+      {/* HERO SECTION */}
+      <div className="max-w-6xl mx-auto text-center">
 
-      {/* Images */}
-      <div className="flex flex-wrap gap-5 justify-center items-center mb-6">
-        {["panda.webp", "panda1.webp"].map((src, index) => (
-          <motion.img
-            key={index}
+        <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+          🐼 <span className="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+            Panda Files
+          </span>
+        </h1>
+
+        <p className="mt-4 text-gray-400 max-w-2xl mx-auto text-lg">
+          Store, manage, and share your files securely with lightning-fast performance.
+        </p>
+
+        {/* CTA BUTTONS */}
+        <div className="mt-6 flex flex-wrap justify-center gap-4">
+
+          <Link
+            to="/upload"
+            className="px-6 py-3 bg-green-500 hover:bg-green-600 rounded-xl font-semibold transition shadow-lg"
+          >
+            🚀 Upload Files
+          </Link>
+          
+           <Link
+            to="/files"
+            className="px-6 py-3 bg-blue-500 border border-gray-600 hover:bg-gray-700 rounded-xl font-semibold transition"
+          >
+            📂 View Files
+          </Link>
+
+          <Link
+            to="/login"
+            className="px-6 py-3 bg-gray-800 border border-gray-600 hover:bg-gray-700 rounded-xl font-semibold transition"
+          >
+            🔐 Login
+          </Link>
+
+        </div>
+      </div>
+
+      {/* IMAGE SECTION */}
+      <div className="mt-12 flex flex-wrap justify-center gap-6">
+        {["panda.webp", "panda1.webp"].map((src, i) => (
+          <img
+            key={i}
             src={src}
-            alt={`Panda Files Screenshot ${index + 1}`}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: index * 0.2 }}
-            className="w-60 sm:w-72 md:w-80 max-w-full rounded-xl shadow-lg object-cover"
+            alt="preview"
+            loading="lazy"
+            className="w-72 md:w-80 rounded-2xl shadow-lg hover:scale-105 transition duration-300"
           />
         ))}
       </div>
 
-      {/* Features Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 w-full max-w-5xl">
-        {[
-          {
-            icon: <File size={30} className="text-yellow-400" />,
-            title: "Any File Type",
-            desc: "Upload and manage images, PDFs, videos, zip files and more.",
-          },
-          {
-            icon: <Search size={30} className="text-green-400" />,
-            title: "Quick Search",
-            desc: "Find your files instantly using keywords or file types.",
-          },
-          {
-            icon: <UploadCloud size={30} className="text-blue-400" />,
-            title: "Bulk Upload",
-            desc: "Upload multiple files at once with drag-and-drop.",
-          },
-          {
-            icon: <File size={30} className="text-pink-400" />,
-            title: "Safe & Secure",
-            desc: "All your files are securely stored with encryption.",
-          },
-          {
-            icon: <Search size={30} className="text-indigo-400" />,
-            title: "Preview Support",
-            desc: "Preview PDFs, images and documents before downloading.",
-          },
-          {
-            icon: <UploadCloud size={30} className="text-red-400" />,
-            title: "Download Anytime",
-            desc: "Access and download your files 24/7 from any device.",
-          },
-        ].map((feature, index) => (
-          <motion.div
-            key={feature.title}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-            className="bg-white/20 bg-gray-700 p-4 rounded-xl shadow-lg flex flex-col items-center text-center"
+      {/* FEATURES */}
+      <div className="mt-16 max-w-6xl mx-auto grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+        {features.map((f, i) => (
+          <div
+            key={i}
+            className="bg-gray-800/70 backdrop-blur-lg p-6 rounded-2xl border border-gray-700 shadow-lg hover:scale-105 transition duration-300 text-center"
           >
-            {feature.icon}
-            <h3 className="text-lg font-semibold mt-2">{feature.title}</h3>
-            <p className="text-sm">{feature.desc}</p>
-          </motion.div>
+            <div className="text-4xl mb-3">{f.icon}</div>
+            <h3 className="text-lg font-semibold">{f.title}</h3>
+            <p className="text-gray-400 text-sm mt-2">{f.desc}</p>
+          </div>
         ))}
+
       </div>
 
-      {/* Replaced Ad Block with Informational Content */}
-      <div className="my-10 w-full max-w-4xl px-4 text-center text-white">
-        <motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-2xl font-bold mb-2"
-        >
+      {/* INFO SECTION */}
+      <div className="mt-20 max-w-4xl mx-auto text-center">
+        <h2 className="text-2xl font-bold mb-3">
           📌 Why Choose Panda Files?
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="text-base text-gray-300"
-        >
-          Panda Files is built for students, professionals, and teams who need a
-          **fast**, **reliable**, and **user-friendly** cloud storage experience. Whether
-          you're sharing project files or organizing your portfolio, Panda Files
-          ensures everything is available exactly when you need it — on any device.
-        </motion.p>
+        </h2>
+
+        <p className="text-gray-400">
+          Panda Files is built for students, developers, and professionals who
+          need a fast, reliable, and secure file storage system. Access your data
+          anytime, anywhere with ease.
+        </p>
       </div>
+
+      {/* FOOTER CTA */}
+      
+
     </div>
   );
 };

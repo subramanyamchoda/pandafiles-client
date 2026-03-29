@@ -1,94 +1,128 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useMemo } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState(() => {
+  const user = useMemo(() => {
     try {
-      const savedUser = localStorage.getItem("user");
-      return savedUser ? JSON.parse(savedUser) : null;
-    } catch (error) {
-      console.error("Error parsing user data from localStorage:", error);
+      return JSON.parse(localStorage.getItem("user"));
+    } catch {
       return null;
     }
-  });
+  }, []);
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
+    if (!user) navigate("/login");
   }, [user, navigate]);
 
   const handleLogout = async () => {
     try {
-      await axios.post("https://panda-files.onrender.com/auth/logout", {}, { withCredentials: true });
-      localStorage.removeItem("user");
-      localStorage.removeItem("userId");
+      await axios.post(
+        "https://panda-files.onrender.com/auth/logout",
+        {},
+        { withCredentials: true }
+      );
+
+      localStorage.clear();
       navigate("/login");
-      setUser(null);      
-    } catch (error) {
-      console.error("Logout failed:", error);
+    } catch {
+      alert("Logout failed");
     }
   };
 
+  if (!user) return null;
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-4">
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="bg-white/10 backdrop-blur-lg p-6 rounded-2xl shadow-xl w-full max-w-md text-center border border-white/20"
-      >
-        {user ? (
-          <div>
-            <motion.img
-              src={user.avatar}
-              alt={user.name}
-              className="w-24 h-24 mb-4 rounded-full mx-auto border-4 border-gray-300 shadow-lg"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white px-4 pt-24">
 
-            <motion.h2 
-              className="text-3xl font-bold text-white" 
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              Welcome, {user.name}!
-            </motion.h2>
-            <p className="text-gray-300 mt-1">{user.email}</p>
+      {/* HEADER */}
+      <div className="max-w-6xl mx-auto mb-10">
+        <h1 className="text-3xl font-bold">
+          👋 Welcome back,{" "}
+          <span className="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+            {user.name}
+          </span>
+        </h1>
+        <p className="text-gray-400 mt-2">
+          Manage your files and account
+        </p>
+      </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="flex flex-col gap-4 mt-6"
-            >
-              <Link
-                to="/userfiles"
-                className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-6 rounded-lg transition duration-200"
-              >
-                📂 Your Files
-              </Link>
-              
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-6 rounded-lg transition duration-200"
-              >
-                🔒 Logout
-              </button>
-            </motion.div>
-          </div>
-        ) : (
-          <p className="text-xl text-white">Please log in to view your dashboard.</p>
-        )}
-      </motion.div>
+      {/* PROFILE CARD */}
+      <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+
+        {/* LEFT - PROFILE */}
+        <div className="bg-gray-800/70 backdrop-blur-lg p-6 rounded-2xl border border-gray-700 shadow-lg text-center">
+
+          <img
+            src={user.avatar}
+            alt="avatar"
+            className="w-24 h-24 rounded-full mx-auto border-4 border-green-400"
+          />
+
+          <h2 className="mt-4 text-xl font-semibold">{user.name}</h2>
+          <p className="text-gray-400 text-sm">{user.email}</p>
+
+          <button
+            onClick={handleLogout}
+            className="mt-5 w-full bg-red-500 hover:bg-red-600 py-2 rounded-lg transition"
+          >
+            🔒 Logout
+          </button>
+        </div>
+
+        {/* RIGHT - ACTIONS */}
+        <div className="md:col-span-2 grid sm:grid-cols-2 gap-6">
+
+          <Link
+            to="/upload"
+            className="bg-gray-800/70 backdrop-blur-lg p-6 rounded-2xl border border-gray-700 hover:scale-105 transition shadow-lg"
+          >
+            <div className="text-4xl mb-3">📤</div>
+            <h3 className="text-lg font-semibold">Upload Files</h3>
+            <p className="text-gray-400 text-sm mt-1">
+              Add new files to your storage
+            </p>
+          </Link>
+
+          <Link
+            to="/userfiles"
+            className="bg-gray-800/70 backdrop-blur-lg p-6 rounded-2xl border border-gray-700 hover:scale-105 transition shadow-lg"
+          >
+            <div className="text-4xl mb-3">📁</div>
+            <h3 className="text-lg font-semibold">Your Files</h3>
+            <p className="text-gray-400 text-sm mt-1">
+              View and manage your uploads
+            </p>
+          </Link>
+
+          <Link
+            to="/files"
+            className="bg-gray-800/70 backdrop-blur-lg p-6 rounded-2xl border border-gray-700 hover:scale-105 transition shadow-lg"
+          >
+            <div className="text-4xl mb-3">🌐</div>
+            <h3 className="text-lg font-semibold">Public Files</h3>
+            <p className="text-gray-400 text-sm mt-1">
+              Explore shared files
+            </p>
+          </Link>
+
+          <Link
+            to="/"
+            className="bg-gray-800/70 backdrop-blur-lg p-6 rounded-2xl border border-gray-700 hover:scale-105 transition shadow-lg"
+          >
+            <div className="text-4xl mb-3">🏠</div>
+            <h3 className="text-lg font-semibold">Home</h3>
+            <p className="text-gray-400 text-sm mt-1">
+              Go back to homepage
+            </p>
+          </Link>
+
+        </div>
+      </div>
+
     </div>
   );
 };

@@ -1,110 +1,168 @@
-import React, { useState } from "react"; 
-import { useNavigate } from "react-router-dom";
+import React, { useState, memo, useCallback } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { Menu, X } from "lucide-react"; 
-import { motion, AnimatePresence } from "framer-motion"; 
-import { Link } from "react-router-dom";
 
-const Navbar = ({ user, setUser }) => { 
-   const [isOpen, setIsOpen] = useState(false); 
-   const [showDropdown, setShowDropdown] = useState(false); 
-   const navigate = useNavigate();
+const Navbar = ({ user, setUser }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
 
-   const handleLogout = async () => { 
-      try { 
-         await axios.post("https://panda-files.onrender.com/auth/logout", {}, { withCredentials: true });
+  const toggleMenu = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
 
-         // Clear local storage and user state
-         localStorage.removeItem("user");
-         localStorage.removeItem("userId");
-         setUser(null);
+  const closeMenu = useCallback(() => {
+    setIsOpen(false);
+  }, []);
 
-         // Redirect to login page
-         navigate("/login");
-      } catch (error) {
-         console.error("Logout failed:", error);
-      }
-   };
+  const toggleDropdown = useCallback(() => {
+    setShowDropdown((prev) => !prev);
+  }, []);
 
-   return ( 
-      <nav className="bg-gray-800 text-white shadow-lg w-full z-50"> 
-         <div className="max-w-6xl mx-auto px-4"> 
-            <div className="flex justify-between items-center py-4"> 
-               <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="text-2xl font-bold flex items-center">
-                  🐼 Panda Files 
-               </motion.div>
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        "https://panda-files.onrender.com/auth/logout",
+        {},
+        { withCredentials: true }
+      );
 
-               {/* Desktop Navbar */}
-               <div className="hidden md:flex space-x-8">
-                  {["Home", "Upload", "Files", "Contact"].map((item) => (
-                     <Link key={item} to={`/${item.toLowerCase()}`} className="text-xl relative hover:text-gray-300 transition-all">
-                        {item}
-                     </Link>
-                  ))}
+      localStorage.removeItem("user");
+      localStorage.removeItem("userId");
+      setUser(null);
 
-                  {user ? (
-                     <div className="relative user-menu">
-                        <img src={user.avatar} alt="User" className="w-10 h-10 rounded-full border border-white cursor-pointer" onClick={() => setShowDropdown(!showDropdown)} />
-                        <AnimatePresence>
-                           {showDropdown && (
-                              <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }} className="absolute right-0 mt-2 w-48 bg-gray-900 text-white rounded-lg shadow-lg p-4">
-                                 <p className="text-center font-semibold">{user.name}</p>
-                                 <Link to="/dashboard" className="mt-2 block text-center bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg">
-                                    Dashboard
-                                 </Link>
-                                 <button onClick={handleLogout} className="mt-2 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg">
-                                    Logout
-                                 </button>
-                              </motion.div>
-                           )}
-                        </AnimatePresence>
-                     </div>
-                  ) : (
-                     <Link to="/login" className="text-xl hover:text-gray-300">
-                        Login
-                     </Link>
-                  )}
-               </div>
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
-               {/* Mobile Menu */}
-               <button className="md:hidden" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Menu">
-                  {isOpen ? <X size={28} /> : <Menu size={28} />}
-               </button>
-            </div>
-         </div>
+  const navItems = ["Home", "Upload", "Files", "Contact"];
 
-         {/* Mobile Menu */}
-         <AnimatePresence>
-            {isOpen && (
-               <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className="md:hidden bg-gray-900 text-white backdrop-blur-lg">
-                  {["Home", "Upload", "Files", "Contact"].map((item) => (
-                     <Link key={item} to={`/${item.toLowerCase()}`} className="block py-3 text-lg text-center hover:text-gray-300 transition-all" onClick={() => setIsOpen(false)}>
-                        {item}
-                     </Link>
-                  ))}
+  return (
+    <nav className="bg-gray-800/80 backdrop-blur-md border-b border-gray-700 sticky top-0 z-50 text-white">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="flex justify-between items-center py-4">
 
-                  {user ? (
-                     <div className="flex flex-col items-center py-4">
-                        <img src={user.avatar} alt="User" className="w-10 h-10 rounded-full border border-white" />
-                        <p className="mt-2 font-semibold">{user.name}</p>
-                        <Link to="/dashboard" className="mt-2 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all" onClick={() => setIsOpen(false)}>
-                           Dashboard
-                        </Link>
-                        <button onClick={handleLogout} className="mt-2 px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all">
-                           Logout
-                        </button>
-                     </div>
-                  ) : (
-                     <Link to="/login" className="block py-3 text-lg text-center hover:text-gray-300 transition-all" onClick={() => setIsOpen(false)}>
-                        Login
-                     </Link>
-                  )}
-               </motion.div>
+          {/* Logo */}
+          <div className="text-2xl font-bold flex items-center gap-2">
+            <span className="text-3xl">🐼</span>
+            <span className="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+              Panda Files
+            </span>
+          </div>
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
+              <Link
+                key={item}
+                to={`/${item.toLowerCase()}`}
+                className="relative group text-lg"
+              >
+                {item}
+                <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-green-400 transition-all group-hover:w-full"></span>
+              </Link>
+            ))}
+
+            {user ? (
+              <div className="relative">
+                <img
+                  src={user.avatar}
+                  alt="User"
+                  onClick={toggleDropdown}
+                  className="w-10 h-10 rounded-full border-2 border-green-400 cursor-pointer hover:scale-105 transition"
+                />
+
+                {showDropdown && (
+                  <div className="absolute right-0 mt-3 w-52 bg-gray-900/90 backdrop-blur-lg rounded-xl shadow-xl p-4 border border-gray-700">
+                    <p className="text-center font-semibold">{user.name}</p>
+
+                    <Link
+                      to="/dashboard"
+                      className="mt-3 block text-center bg-green-500 hover:bg-green-600 py-2 rounded-lg transition"
+                    >
+                      Dashboard
+                    </Link>
+
+                    <button
+                      onClick={handleLogout}
+                      className="mt-2 w-full bg-red-500 hover:bg-red-600 py-2 rounded-lg transition"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link to="/login" className="text-lg hover:text-gray-300">
+                Login
+              </Link>
             )}
-         </AnimatePresence>
-         <hr className="border-gray-600" />
-      </nav>
-   );
+          </div>
+
+          {/* Mobile Toggle */}
+          <button
+            className="md:hidden text-2xl"
+            onClick={toggleMenu}
+            aria-label="Toggle Menu"
+          >
+            {isOpen ? "✖" : "☰"}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden bg-gray-900/95 backdrop-blur-xl text-white">
+          {navItems.map((item) => (
+            <Link
+              key={item}
+              to={`/${item.toLowerCase()}`}
+              className="block py-3 text-lg text-center hover:text-gray-300 transition"
+              onClick={closeMenu}
+            >
+              {item}
+            </Link>
+          ))}
+
+          {user ? (
+            <div className="flex flex-col items-center py-4">
+              <img
+                src={user.avatar}
+                alt="User"
+                className="w-12 h-12 rounded-full border-2 border-green-400"
+              />
+              <p className="mt-2 font-semibold">{user.name}</p>
+
+              <Link
+                to="/dashboard"
+                className="mt-3 px-6 py-2 bg-green-500 rounded-lg hover:bg-green-600 transition"
+                onClick={closeMenu}
+              >
+                Dashboard
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className="mt-2 px-6 py-2 bg-red-500 rounded-lg hover:bg-red-600 transition"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="block py-3 text-lg text-center hover:text-gray-300 transition"
+              onClick={closeMenu}
+            >
+              Login
+            </Link>
+          )}
+        </div>
+      )}
+    </nav>
+  );
 };
 
-export default Navbar;
+export default memo(Navbar);
