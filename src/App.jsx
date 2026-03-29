@@ -10,7 +10,8 @@ import Contact from './Contact';
 import Dashboard from './Dashboard';
 import UserFiles from './UserFiles';
 import { motion } from 'framer-motion';
-
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from "@vercel/speed-insights/react";
 const App = () => {
   const [user, setUser] = useState(() => {
     try {
@@ -39,29 +40,35 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <Navbar user={user} onLogout={handleLogout} setUser={setUser} />
+    <>
+      <Router>
+  <Navbar user={user} onLogout={handleLogout} setUser={setUser} />
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/upload" element={<FileUploader />} />
-          <Route path="/files" element={<FileList />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/userfiles" element={<UserFiles />} />
-          <Route path="/login" element={<GoogleAuth setUser={setUser} />} />
-        </Routes>
-      </motion.div>
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.5 }}
+  >
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/upload" element={<FileUploader />} />
+      <Route path="/files" element={<FileList />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/userfiles" element={<UserFiles />} />
+      <Route path="/login" element={<GoogleAuth setUser={setUser} />} />
+    </Routes>
 
-      <Footer />
-    </Router>
+    
+    <Analytics />
+    <SpeedInsights />
+  </motion.div>
+
+  <Footer />
+</Router>
+    </>
   );
 };
 
