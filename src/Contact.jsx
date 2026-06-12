@@ -32,7 +32,7 @@ const Contact = () => {
 
         <div className="flex items-center gap-3 bg-gray-700 p-3 rounded-lg">
           <span>📱</span>
-          <span className="text-sm">+91 8919348949</span>
+          <span className="text-sm">+91 -----------</span>
         </div>
 
         <div className="flex items-center gap-3 bg-gray-700 p-3 rounded-lg">
